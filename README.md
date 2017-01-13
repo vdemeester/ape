@@ -50,4 +50,10 @@ git@github.com:vdemeester/traefik.git https://github.com/containous/traefik.git
 ```
 
 It runs the thing in parallel, for now 8 maximum at a time. At some
-point this will be configurabel.
+point this will be configurable.
+
+# Installation
+
+```bash
+$ go get github.com/vdemeester/ape/cmd/ape
+```
