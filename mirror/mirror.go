@@ -15,7 +15,7 @@ import (
 func Mirror(workingDirectory string, repositories []config.Repository) error {
 	var wg sync.WaitGroup
 	errCh := make(chan error, len(repositories))
-	limit := make(chan struct{}, 16)
+	limit := make(chan struct{}, 8)
 	for _, d := range repositories {
 		wg.Add(1)
 		go func(d config.Repository) {

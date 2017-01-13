@@ -48,3 +48,6 @@ git@github.com:vdemeester/traefik.git https://github.com/containous/traefik.git
 🐵 push to origin docker
 🐵 push to origin nixpkgs
 ```
+
+It runs the thing in parallel, for now 8 maximum at a time. At some
+point this will be configurabel.
