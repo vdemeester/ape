@@ -59,7 +59,7 @@ func mirror(workingDirectory string, repository config.Repository) error {
 func pushRepository(workingDirectory string, name string) error {
 	fmt.Fprintf(os.Stderr, "🐵 push to origin %s\n", name)
 	dir := filepath.Join(workingDirectory, name)
-	cmd := exec.Command("git", "push", "origin", "master")
+	cmd := exec.Command("git", "push", "-f", "origin", "master")
 	cmd.Dir = dir
 	return errors.Wrapf(cmd.Run(), "error pushing to origin in %s", dir)
 }
