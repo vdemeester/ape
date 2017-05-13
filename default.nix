@@ -9,12 +9,12 @@ in
 }:
 
 pkgs.stdenv.mkDerivation rec {
-    name = "docker-volume-ipfs-dev";
+    name = "ape";
     env = pkgs.buildEnv { name = name; paths = buildInputs; };
     buildInputs = [
         pkgs.vndr
-        pkgs.go_1_7
+        pkgs.go_1_8
         pkgs.gnumake
-	pkgs.docker
+	pkgs.gotools
     ];
 }
