@@ -1,20 +1,24 @@
 let
-  _pkgs = import <nixpkgs> {};
+        _pkgs = import <nixpkgs> {};
 in
-{ pkgs ? import (_pkgs.fetchFromGitHub { owner = "NixOS";
-                                         repo = "nixpkgs-channels";
-                                         rev = "0afb6d789c8bf74825e8cdf6a5d3b9ab8bde4f2d";
-                                         sha256 = "147vhzrnwcy0v77kgbap31698qbda8rn09n5fnjp740svmkjpaiz";
-                                       }) {}
+        { pkgs ? import (_pkgs.fetchFromGitHub {
+                owner = "NixOS";
+                repo = "nixpkgs-channels";
+                rev = "d0d905668c010b65795b57afdf7f0360aac6245b";
+                sha256 = "1kqxfmsik1s1jsmim20n5l4kq6wq8743h5h17igfxxbbwwqry88l";
+        }) {}
 }:
 
 pkgs.stdenv.mkDerivation rec {
-    name = "ape";
-    env = pkgs.buildEnv { name = name; paths = buildInputs; };
-    buildInputs = [
-        pkgs.vndr
-        pkgs.go_1_8
-        pkgs.gnumake
-	pkgs.gotools
-    ];
+        name = "go-projects";
+        env = pkgs.buildEnv { name = name; paths = buildInputs; };
+        buildInputs = [
+                pkgs.go_1_9
+                pkgs.vndr
+                pkgs.gnumake
+                pkgs.gotools
+                pkgs.golint
+                pkgs.godef
+                pkgs.gocode
+        ];
 }
