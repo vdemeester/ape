@@ -6,14 +6,18 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// RootCmd represents the base command when called without any subcommands
-var RootCmd = &cobra.Command{
-	Use:   "ape",
-	Short: "vcs mirror update",
+func apeCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "ape",
+		Short: "vcs mirror update",
+	}
+	cmd.AddCommand(upCmd())
+	return cmd
 }
 
 func main() {
-	if err := RootCmd.Execute(); err != nil {
+	cmd := apeCmd()
+	if err := cmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }
