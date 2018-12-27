@@ -2,7 +2,7 @@
 github.com/inconshreveable/mousetrap
 # github.com/pkg/errors v0.0.0-20161002052512-839d9e913e06
 github.com/pkg/errors
-# github.com/spf13/cobra v0.0.0-20161115141605-6b74a60562f5
+# github.com/spf13/cobra v0.0.3
 github.com/spf13/cobra
-# github.com/spf13/pflag v0.0.0-20161018230844-dabebe21bf79
+# github.com/spf13/pflag v1.0.3
 github.com/spf13/pflag
