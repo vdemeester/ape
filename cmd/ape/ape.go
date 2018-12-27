@@ -12,6 +12,7 @@ func apeCmd() *cobra.Command {
 		Short: "vcs mirror update",
 	}
 	cmd.AddCommand(upCmd())
+	cmd.AddCommand(walkCmd())
 	return cmd
 }
 
