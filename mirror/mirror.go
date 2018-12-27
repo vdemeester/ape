@@ -41,7 +41,7 @@ func Mirror(workingDirectory string, repositories []config.Repository) error {
 
 func mirror(workingDirectory string, repository config.Repository) error {
 	repositoryName, exists := lookInWorkingDirectory(workingDirectory, repository.Remote)
-	fmt.Printf("🐒 %s\n", repositoryName)
+	// fmt.Printf("🐒 %s\n", repositoryName)
 	if !exists {
 		if err := cloneRepository(workingDirectory, repository.Remote, repositoryName); err != nil {
 			return err
@@ -57,7 +57,7 @@ func mirror(workingDirectory string, repository config.Repository) error {
 }
 
 func pushRepository(workingDirectory string, name string) error {
-	fmt.Fprintf(os.Stderr, "🐵 push to origin %s\n", name)
+	fmt.Fprintf(os.Stderr, "🐵 %s:  push to origin\n", name)
 	dir := filepath.Join(workingDirectory, name)
 	cmd := exec.Command("git", "push", "-f", "origin", "master")
 	cmd.Dir = dir
@@ -65,7 +65,7 @@ func pushRepository(workingDirectory string, name string) error {
 }
 
 func fetchAndRebase(workingDirectory string, name string) error {
-	fmt.Fprintf(os.Stderr, "🙊 fetch and rebase %s\n", name)
+	fmt.Fprintf(os.Stderr, "🙊 %s: fetch and rebase\n", name)
 	dir := filepath.Join(workingDirectory, name)
 	cmd := exec.Command("git", "fetch", "-p", "--all")
 	cmd.Dir = dir
@@ -97,14 +97,14 @@ func addRemoteIfNotPresent(workingDirectory string, name string, upstreamRemote 
 		return nil
 	}
 
-	fmt.Fprintf(os.Stderr, "🙉 add upstream %s\n", upstreamRemote)
+	fmt.Fprintf(os.Stderr, "🙉 %s: add upstream\n", upstreamRemote)
 	cmd = exec.Command("git", "remote", "add", "upstream", upstreamRemote)
 	cmd.Dir = dir
 	return cmd.Run()
 }
 
 func cloneRepository(workingDirectory string, remote string, name string) error {
-	fmt.Fprintf(os.Stderr, "🙈 cloning %s\n", remote)
+	fmt.Fprintf(os.Stderr, "🐵 %s: cloning\n", remote)
 	cmd := exec.Command("git", "clone", remote, name)
 	cmd.Dir = workingDirectory
 	if err := cmd.Run(); err != nil {
