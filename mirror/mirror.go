@@ -1,6 +1,7 @@
 package mirror
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"os"
 	"os/exec"
@@ -41,7 +42,6 @@ func Mirror(workingDirectory string, repositories []config.Repository) error {
 
 func mirror(workingDirectory string, repository config.Repository) error {
 	repositoryName, exists := lookInWorkingDirectory(workingDirectory, repository.Remote)
-	// fmt.Printf("🐒 %s\n", repositoryName)
 	if !exists {
 		if err := cloneRepository(workingDirectory, repository.Remote, repositoryName); err != nil {
 			return err
@@ -50,22 +50,22 @@ func mirror(workingDirectory string, repository config.Repository) error {
 	if err := addRemoteIfNotPresent(workingDirectory, repositoryName, repository.Upstream); err != nil {
 		return err
 	}
-	if err := fetchAndRebase(workingDirectory, repositoryName); err != nil {
+	if err := fetchAndRebase(workingDirectory, repositoryName, repository.Remote); err != nil {
 		return err
 	}
-	return pushRepository(workingDirectory, repositoryName)
+	return pushRepository(workingDirectory, repositoryName, repository.Remote)
 }
 
-func pushRepository(workingDirectory string, name string) error {
-	fmt.Fprintf(os.Stderr, "🐵 %s:  push to origin\n", name)
+func pushRepository(workingDirectory, name, remote string) error {
+	fmt.Fprintf(os.Stderr, "🐵 %s: push to origin\n", remote)
 	dir := filepath.Join(workingDirectory, name)
 	cmd := exec.Command("git", "push", "-f", "origin", "master")
 	cmd.Dir = dir
 	return errors.Wrapf(cmd.Run(), "error pushing to origin in %s", dir)
 }
 
-func fetchAndRebase(workingDirectory string, name string) error {
-	fmt.Fprintf(os.Stderr, "🙊 %s: fetch and rebase\n", name)
+func fetchAndRebase(workingDirectory, name, remote string) error {
+	fmt.Fprintf(os.Stderr, "🙊 %s: fetch and rebase\n", remote)
 	dir := filepath.Join(workingDirectory, name)
 	cmd := exec.Command("git", "fetch", "-p", "--all")
 	cmd.Dir = dir
@@ -85,7 +85,7 @@ func fetchAndRebase(workingDirectory string, name string) error {
 	return nil
 }
 
-func addRemoteIfNotPresent(workingDirectory string, name string, upstreamRemote string) error {
+func addRemoteIfNotPresent(workingDirectory, name, upstreamRemote string) error {
 	dir := filepath.Join(workingDirectory, name)
 	cmd := exec.Command("git", "remote")
 	cmd.Dir = dir
@@ -103,8 +103,8 @@ func addRemoteIfNotPresent(workingDirectory string, name string, upstreamRemote 
 	return cmd.Run()
 }
 
-func cloneRepository(workingDirectory string, remote string, name string) error {
-	fmt.Fprintf(os.Stderr, "🐵 %s: cloning\n", remote)
+func cloneRepository(workingDirectory, remote, name string) error {
+	fmt.Fprintf(os.Stderr, "🐵 %s: cloning in %s\n", remote, name)
 	cmd := exec.Command("git", "clone", remote, name)
 	cmd.Dir = workingDirectory
 	if err := cmd.Run(); err != nil {
@@ -114,9 +114,8 @@ func cloneRepository(workingDirectory string, remote string, name string) error 
 }
 
 func lookInWorkingDirectory(workingDirectory string, repository string) (string, bool) {
-	extension := filepath.Ext(repository)
-	base := filepath.Base(repository)
-	name := base[0 : len(base)-len(extension)]
-	_, err := os.Stat(filepath.Join(workingDirectory, name))
-	return name, err == nil
+	sum := sha256.Sum256([]byte(repository))
+	encodedName := fmt.Sprintf("%x", sum)
+	_, err := os.Stat(filepath.Join(workingDirectory, encodedName))
+	return encodedName, err == nil
 }
