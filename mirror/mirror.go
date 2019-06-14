@@ -13,6 +13,7 @@ import (
 	"github.com/vdemeester/ape/config"
 )
 
+// Mirror is a merroooorr
 func Mirror(workingDirectory string, repositories []config.Repository) error {
 	var wg sync.WaitGroup
 	errCh := make(chan error, len(repositories))
