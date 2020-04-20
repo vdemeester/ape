@@ -1,4 +1,4 @@
-package config
+package config // import "go.sbr.pm/ape/config"
 
 import (
 	"bufio"

@@ -1,4 +1,4 @@
-package main
+package main // import "go.sbr.pm/ape/cmd/ape"
 
 import (
 	"context"

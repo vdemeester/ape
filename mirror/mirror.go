@@ -1,4 +1,4 @@
-package mirror
+package mirror // import "go.sbr.pm/ape/mirror"
 
 import (
 	"crypto/sha256"

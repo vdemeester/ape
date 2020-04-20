@@ -1,4 +1,4 @@
-package walk
+package walk // import "go.sbr.pm/ape/walk"
 
 import (
 	"bytes"
