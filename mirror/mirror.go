@@ -10,7 +10,7 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/vdemeester/ape/config"
+	"go.sbr.pm/ape/config"
 )
 
 func Mirror(workingDirectory string, repositories []config.Repository) error {

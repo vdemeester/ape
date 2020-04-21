@@ -6,7 +6,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/vdemeester/ape/walk"
+	"go.sbr.pm/ape/walk"
 )
 
 var verbose bool

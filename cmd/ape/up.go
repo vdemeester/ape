@@ -6,8 +6,8 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"github.com/vdemeester/ape/config"
-	"github.com/vdemeester/ape/mirror"
+	"go.sbr.pm/ape/config"
+	"go.sbr.pm/ape/mirror"
 )
 
 var configFile string
